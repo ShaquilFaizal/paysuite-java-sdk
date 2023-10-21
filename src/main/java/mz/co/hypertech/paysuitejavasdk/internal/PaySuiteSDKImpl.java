@@ -3,6 +3,7 @@ package mz.co.hypertech.paysuitejavasdk.internal;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import mz.co.hypertech.paysuitejavasdk.Callback;
 import mz.co.hypertech.paysuitejavasdk.PaySuiteRequest;
 import mz.co.hypertech.paysuitejavasdk.PaySuiteResponse;
 import retrofit2.Call;
@@ -11,10 +12,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 
-public class PaySuiteSDKImpl implements PaySuiteSDK{
+public class PaySuiteSDKImpl implements PaySuiteSDK, retrofit2.Callback<PaySuiteResponse>{
 
     private final String apiKey;
     private final PaySuiteService paySuiteService;
+    private Callback callback;
 
     public PaySuiteSDKImpl(String apiKey) {
         this.apiKey = apiKey;
@@ -39,6 +41,14 @@ public class PaySuiteSDKImpl implements PaySuiteSDK{
         }
     }
 
+    @Override
+    public void initiatePaymentAsync(PaySuiteRequest paySuiteRequest, Callback callback) {
+        validatePaySuiteRequest(paySuiteRequest);
+        this.callback = callback;
+        Call<PaySuiteResponse> call = paySuiteService.post(apiKey, paySuiteRequest);
+        call.enqueue(this);
+    }
+
     private PaySuiteResponseFailure handleErrorResponse (Response<PaySuiteResponse> response){
         try {
             String errorResponse = response.errorBody().string();
@@ -48,5 +58,25 @@ public class PaySuiteSDKImpl implements PaySuiteSDK{
         } catch (IOException | JsonParseException e) {
             return new PaySuiteResponseFailure("500", "An error occurred: " + e.getMessage());
         }
+    }
+
+    private void validatePaySuiteRequest(PaySuiteRequest paySuiteRequest) {
+        if (paySuiteRequest.getTx_ref() == null) {
+            throw new IllegalArgumentException("The 'tx_ref' field in PaySuiteRequest is required for payment initiation.");
+        }
+    }
+
+    @Override
+    public void onResponse(Call<PaySuiteResponse> call, Response<PaySuiteResponse> response) {
+        if (response.isSuccessful()) {
+            callback.onSuccess(response.body());
+        } else {
+            callback.onError(handleErrorResponse(response));
+        }
+    }
+
+    @Override
+    public void onFailure(Call<PaySuiteResponse> call, Throwable throwable) {
+        callback.onError(new PaySuiteResponseFailure("500", "An Error occurred: " + throwable.getMessage()));
     }
 }

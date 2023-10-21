@@ -16,4 +16,8 @@ public class Client {
     public Object initiatePaymentSync(PaySuiteRequest paySuiteRequest) throws IOException {
         return  paySuiteSDK.initiatePaymentSync(paySuiteRequest);
     }
+
+    void initiatePaymentAsync(PaySuiteRequest paySuiteRequest, Callback callback){
+        paySuiteSDK.initiatePaymentAsync(paySuiteRequest, callback);
+    }
 }

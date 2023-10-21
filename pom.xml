@@ -9,8 +9,23 @@
 	<name>Paysuite SDK</name>
 	<description>Lib to help developers integrate PaySuite to their products</description>
 	<properties>
-		<java.version>11</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
 	</properties>
+	<organization>
+		<name>PaySuite</name>
+		<url>https://paysuite.co.mz//</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<name>Shaquil Faizal Daude</name>
+			<email>shaquil.faizal@gmail.com</email>
+		</developer>
+	</developers>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.squareup.retrofit2</groupId>
@@ -32,8 +47,13 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

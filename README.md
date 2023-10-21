@@ -28,7 +28,7 @@ To make the most of this library, make sure to have the following prerequisites 
 2. Add the dependency:
     ```groovy
     dependencies {
-        implementation ''
+        implementation 'com.github.hypertech-lda:paysuite-java-sdk:1.0.0'
     }
     ```
 <br>
@@ -48,9 +48,9 @@ To make the most of this library, make sure to have the following prerequisites 
 2. Add the dependency:
     ```xml
     <dependency>
-       <groupId></groupId>
-       <artifactId></artifactId>
-       <version></version>
+       <groupId>com.github.hypertech-lda</groupId>
+       <artifactId>paysuite-java-sdk</artifactId>
+       <version>1.0.0</version>
     </dependency>
     ```
 
@@ -68,8 +68,8 @@ git clone https://github.com/hypertech-lda/paysuite-java-sdk
 Using this SDK is very simple and fast, let us see some examples:
 
 ```java
-import mz.co.hypertech.paysuitesdk.Client;
-import mz.co.hypertech.paysuitesdk.PaySuiteRequest;
+import mz.co.hypertech.paysuitejavasdk.Client;
+import mz.co.hypertech.paysuitejavasdk.PaySuiteRequest;
 
 
         Client client = new Client(apiKey);

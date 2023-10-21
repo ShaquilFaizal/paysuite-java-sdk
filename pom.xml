@@ -5,7 +5,7 @@
 
 	<groupId>mz.co.hypertech</groupId>
 	<artifactId>paysuite-java-sdk</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Paysuite SDK</name>
 	<description>Lib to help developers integrate PaySuite to their products</description>
 	<properties>
